@@ -4,7 +4,7 @@ import { Chess } from 'chess.js';
 import { Square, Undo, Redo, Lightbulb } from 'lucide-react';
 import ChessBoard from './components/ChessBoard';
 // import GameControls from './components/GameControls';
-// import GameStatus from './components/GameStatus';
+import GameStatus from './components/GameStatus';
 import GameStats from './components/GameStats';
 import GameSettings from './components/GameSettings';
 import './App.css';
@@ -105,6 +105,15 @@ function App() {
     />
   ), [game, handleGameChange, aiDepth, showHints, handleStatsUpdate, handleAdvantageUpdate, isAutoPlay, playerColor]);
 
+  // Game status component with winner display
+  const memoizedGameStatus = useMemo(() => (
+    <GameStatus game={game} />
+  ), [game]);
+
+  // Check if game is over to show winner prominently
+  const isGameOver = game.isGameOver();
+  const winner = game.isCheckmate() ? (game.turn() === 'w' ? 'Black' : 'White') : null;
+
   return (
     <div className="h-screen overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
       {/* Centered Header */}
@@ -113,6 +122,27 @@ function App() {
           <h1 className="text-xl font-bold text-gray-900">Chess AI Master</h1>
         </div>
       </header>
+
+      {/* Game status bar */}
+      <div className="bg-white py-1 px-4 flex justify-center items-center">
+        {memoizedGameStatus}
+      </div>
+
+      {/* Winner announcement overlay */}
+      {isGameOver && winner && (
+        <div className="absolute inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 className="text-2xl font-bold text-red-600 mb-4">Checkmate!</h2>
+            <p className="text-xl font-semibold">{winner} wins the game!</p>
+            <button 
+              onClick={handleNewGame}
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+            >
+              New Game
+            </button>
+          </div>
+        </div>
+      )}
 
       <main className="flex-1 w-full flex flex-row overflow-hidden mobile-layout">
         {/* Left sidebar with controls */}
