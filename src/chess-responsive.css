@@ -1,0 +1,84 @@
+/* Chess board responsive styles */
+#responsive-chess-board {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 45vh; /* Reduced height to prevent overlap */
+  max-width: 450px; /* Reduced width */
+  transition: all 0.3s ease;
+  margin: 0 auto;
+  padding: 25px 0; /* Significant padding top and bottom to create space */
+}
+
+/* Optimize rendering performance */
+.piece-417db {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Reduce animation duration for better performance */
+.piece-417db {
+  transition-duration: 100ms !important;
+}
+
+/* Optimize square rendering */
+.square-55d63 {
+  will-change: background-color;
+  transform: translateZ(0);
+}
+
+/* Prevent layout shifts */
+.board-b72b1 {
+  touch-action: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Optimize for mobile */
+@media (max-width: 768px) {
+  #responsive-chess-board {
+    max-height: 40vh; /* Further reduced for mobile */
+    max-width: 90%; /* Slightly reduced width */
+    width: 90% !important;
+    margin: 20px auto; /* Increased margin for better spacing on mobile */
+    padding: 20px 0; /* More padding top and bottom */
+  }
+  
+  /* Adjust layout for mobile */
+  .mobile-layout {
+    flex-direction: column !important;
+  }
+  
+  .mobile-controls {
+    flex-direction: row !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0.5rem !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+    margin-bottom: 0 !important;
+  }
+  
+  /* Adjust board container for mobile */
+  .mobile-board-container {
+    flex-direction: column !important;
+    order: -1 !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  
+  /* Make chess board appear first on mobile */
+  .mobile-board-container > div:nth-child(2) {
+    order: -1 !important;
+    width: 100% !important;
+    max-height: 60vh !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Adjust stats and settings panels for mobile */
+  .mobile-board-container > div:first-child,
+  .mobile-board-container > div:last-child {
+    width: 100% !important;
+    padding: 0.5rem !important;
+    max-height: none !important;
+  }
+}
