@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Brain, Clock, Zap } from 'lucide-react';
 
 interface GameStatsProps {

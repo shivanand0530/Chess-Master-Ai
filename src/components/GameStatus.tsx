@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { AlertCircle, CheckCircle, XCircle, Minus } from 'lucide-react';
 import { Chess } from 'chess.js';
 

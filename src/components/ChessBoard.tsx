@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, memo } from 'react';
+import { useState, useCallback, useEffect, memo } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
 import { getBestMove, evaluatePosition } from '../utils/chessAI';
@@ -29,7 +29,7 @@ function ChessBoard({
 }: ChessBoardProps) {
   const [moveFrom, setMoveFrom] = useState<Square | null>(null);
   const [moveTo, setMoveTo] = useState<Square | null>(null);
-  const [showPromotionDialog, setShowPromotionDialog] = useState(false);
+  // const [showPromotionDialog, setShowPromotionDialog] = useState(false);
   const [optionSquares, setOptionSquares] = useState<Record<string, any>>({});
   const [rightClickedSquares, setRightClickedSquares] = useState<Record<string, any>>({});
   const [moveSquares, setMoveSquares] = useState<Record<string, any>>({});

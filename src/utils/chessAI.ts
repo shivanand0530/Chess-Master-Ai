@@ -1,7 +1,7 @@
 import { Chess } from 'chess.js';
 import type { ChessMove } from '../types/chess';
 
-const STACK_SIZE = 100;
+// const STACK_SIZE = 100;
 
 // Piece values and position tables adapted from Sunfish.py
 const weights = { p: 100, n: 280, b: 320, r: 479, q: 929, k: 60000, k_e: 60000 };
@@ -94,7 +94,7 @@ const pstSelf = { w: pst_w, b: pst_b };
 
 let positionCount = 0;
 
-function evaluateBoard(game: Chess, move: any, prevSum: number, color: 'w' | 'b'): number {
+function evaluateBoard(game: Chess, move: ChessMove, prevSum: number, color: 'w' | 'b'): number {
   if (game.isCheckmate()) {
     return move.color === color ? 10 ** 10 : -(10 ** 10);
   }
@@ -130,10 +130,10 @@ function evaluateBoard(game: Chess, move: any, prevSum: number, color: 'w' | 'b'
   if (move.captured) {
     if (move.color === color) {
       prevSum += weights[move.captured as keyof typeof weights] + 
-                 pstOpponent[move.color][move.captured as keyof typeof pst_w][to[0]][to[1]];
+                 pstOpponent[move.color][move.captured as keyof typeof pstOpponent[typeof move.color]][to[0]][to[1]];
     } else {
       prevSum -= weights[move.captured as keyof typeof weights] + 
-                 pstSelf[move.color][move.captured as keyof typeof pst_w][to[0]][to[1]];
+                 pstSelf[move.color][move.captured as keyof typeof pstSelf[typeof move.color]][to[0]][to[1]];
     }
   }
 
@@ -141,22 +141,22 @@ function evaluateBoard(game: Chess, move: any, prevSum: number, color: 'w' | 'b'
     move.promotion = 'q';
     if (move.color === color) {
       prevSum -= weights[move.piece as keyof typeof weights] + 
-                 pstSelf[move.color][move.piece as keyof typeof pst_w][from[0]][from[1]];
+                 pstSelf[move.color][move.piece as keyof typeof pstSelf[typeof move.color]][from[0]][from[1]];
       prevSum += weights[move.promotion as keyof typeof weights] + 
-                 pstSelf[move.color][move.promotion as keyof typeof pst_w][to[0]][to[1]];
+                 pstSelf[move.color][move.promotion as keyof typeof pstSelf[typeof move.color]][to[0]][to[1]];
     } else {
       prevSum += weights[move.piece as keyof typeof weights] + 
-                 pstSelf[move.color][move.piece as keyof typeof pst_w][from[0]][from[1]];
+                 pstSelf[move.color][move.piece as keyof typeof pstSelf[typeof move.color]][from[0]][from[1]];
       prevSum -= weights[move.promotion as keyof typeof weights] + 
-                 pstSelf[move.color][move.promotion as keyof typeof pst_w][to[0]][to[1]];
+                 pstSelf[move.color][move.promotion as keyof typeof pstSelf[typeof move.color]][to[0]][to[1]];
     }
   } else {
     if (move.color !== color) {
-      prevSum += pstSelf[move.color][move.piece as keyof typeof pst_w][from[0]][from[1]];
-      prevSum -= pstSelf[move.color][move.piece as keyof typeof pst_w][to[0]][to[1]];
+      prevSum += pstSelf[move.color][move.piece as keyof typeof pstSelf[typeof move.color]][from[0]][from[1]];
+      prevSum -= pstSelf[move.color][move.piece as keyof typeof pstSelf[typeof move.color]][to[0]][to[1]];
     } else {
-      prevSum -= pstSelf[move.color][move.piece as keyof typeof pst_w][from[0]][from[1]];
-      prevSum += pstSelf[move.color][move.piece as keyof typeof pst_w][to[0]][to[1]];
+      prevSum -= pstSelf[move.color][move.piece as keyof typeof pstSelf[typeof move.color]][from[0]][from[1]];
+      prevSum += pstSelf[move.color][move.piece as keyof typeof pstSelf[typeof move.color]][to[0]][to[1]];
     }
   }
 
@@ -171,7 +171,7 @@ function minimax(
   isMaximizingPlayer: boolean,
   sum: number,
   color: 'w' | 'b'
-): [any, number] {
+): [ChessMove | null, number] {
   positionCount++;
   const children = game.moves({ verbose: true });
 
@@ -184,7 +184,7 @@ function minimax(
 
   let maxValue = Number.NEGATIVE_INFINITY;
   let minValue = Number.POSITIVE_INFINITY;
-  let bestMove = null;
+  let bestMove: ChessMove | null = null;
 
   for (const move of children) {
     const gameCopy = new Chess(game.fen());
@@ -222,7 +222,7 @@ function minimax(
   return [bestMove, isMaximizingPlayer ? maxValue : minValue];
 }
 
-export function getBestMove(game: Chess, color: 'w' | 'b', currSum: number, depth: number = 3) {
+export function getBestMove(game: Chess, color: 'w' | 'b', currSum: number, depth: number = 3): { move: ChessMove | null; stats: { positionsEvaluated: number; timeElapsed: number; positionsPerSecond: number; } } {
   positionCount = 0;
   const startTime = Date.now();
   
@@ -250,6 +250,6 @@ export function getBestMove(game: Chess, color: 'w' | 'b', currSum: number, dept
   };
 }
 
-export function evaluatePosition(game: Chess, move: any, prevSum: number): number {
+export function evaluatePosition(game: Chess, move: ChessMove, prevSum: number): number {
   return evaluateBoard(game, move, prevSum, 'b');
 }

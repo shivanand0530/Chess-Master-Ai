@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Settings, Cpu, User } from 'lucide-react';
 
 interface GameSettingsProps {

@@ -1,10 +1,10 @@
-import React from 'react';
+// import React from 'react';
 import { useState, useCallback, useMemo } from 'react';
 import { Chess } from 'chess.js';
 import { Square, Undo, Redo, Lightbulb } from 'lucide-react';
 import ChessBoard from './components/ChessBoard';
-import GameControls from './components/GameControls';
-import GameStatus from './components/GameStatus';
+// import GameControls from './components/GameControls';
+// import GameStatus from './components/GameStatus';
 import GameStats from './components/GameStats';
 import GameSettings from './components/GameSettings';
 import './App.css';

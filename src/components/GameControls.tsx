@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, Square, RotateCcw, Undo, Redo, Lightbulb } from 'lucide-react';
+import {  Square, Undo, Redo, Lightbulb } from 'lucide-react';
 
 interface GameControlsProps {
   onNewGame: () => void;
@@ -20,7 +20,6 @@ export default function GameControls({
   onToggleHints,
   canUndo,
   canRedo,
-  isAutoPlay,
 }: GameControlsProps) {
   const handleNewGame = (e: React.MouseEvent) => {
     e.preventDefault();
