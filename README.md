@@ -23,6 +23,7 @@ A global sum is used to track the evaluation score after each move, which is use
 - Responsive design for various screen sizes
 
 ## How to Play
+Head to https://chess-master-ai-six.vercel.app/ and enjoy the game or 
 1. Clone this repository and install dependencies with `npm install`
 2. Start the development server with `npm run dev`
 3. Play as white by dragging a piece to your desired location. The AI plays as black by default.
